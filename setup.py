@@ -10,9 +10,8 @@ setup(
     version="0.0.1.dev0",
     author="Pseudo Design <info@pseudo.design>",
     install_requires=['pylast'],
-    tests_require=['mock', 'pytest', 'coverage', 'pycodestyle', 'pyyaml',
-                   'pyflakes', 'flaky'],
-    description="A Python interface to Last.fm and Libre.fm",
+    tests_require=[],
+    description="A Python application for retrieving a user's currently streaming last.fm song.",
     author_email="info@pseudo.design",
     url="https://github.com/PseudoDesign/now_playing",
     classifiers=[
