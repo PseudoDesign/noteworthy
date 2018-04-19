@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 from now_playing import keys
-from now_playing import connection
+from now_playing import lastfm
 
 
 class TestConnection(TestCase):
@@ -10,10 +10,9 @@ class TestConnection(TestCase):
         api = "api_key"
         secret = "secret_key"
         last_fm_network.return_value = "network"
-        return_value = connection.connect(api, secret)
+        return_value = lastfm.connect(api, secret)
         last_fm_network.assert_called_once_with(api_key=api, api_secret=secret)
-        self.assertEqual(return_value, "network");
-
+        self.assertEqual(return_value, "network")
 
 
 class TestKeys(TestCase):
