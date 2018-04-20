@@ -9,7 +9,7 @@ setup(
     long_description_content_type="text/markdown",
     version="0.0.1.dev0",
     author="Pseudo Design <info@pseudo.design>",
-    install_requires=['pylast'],
+    install_requires=['pylast', 'wget'],
     tests_require=[],
     description="A Python application for retrieving a user's currently streaming last.fm song.",
     author_email="info@pseudo.design",

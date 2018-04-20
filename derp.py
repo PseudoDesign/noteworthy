@@ -3,14 +3,7 @@ import now_playing
 
 network = now_playing.lastfm.connect(now_playing.keys.API_KEY, now_playing.keys.SECRET_KEY)
 
-print("Network: " + str(network))
+track = now_playing.lastfm.current_track(network, "PseudoDesign")
 
-track = network.get_user("PseudoDesign").get_now_playing()
+now_playing.lastfm.save_track_info(track, r'C:\Users\Adam\Documents\Twobbler')
 
-print(track.artist)
-print(track.title)
-album = track.get_album()
-album_title = album.title
-album_image = album.get_cover_image()
-print(album)
-print(album_image)

@@ -38,7 +38,7 @@ class TestLastFmSaveTrackInfo(TestCase):
         self.album_title = "album"
         self.album_image_url = "pseudo.design/img.png"
 
-        self.track.artist = self.artist
+        self.track.artist.name = self.artist
         self.track.title = self.track_title
         self.track.get_album.return_value = self.album
         self.album.title = self.album_title
