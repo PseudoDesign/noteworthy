@@ -13,3 +13,4 @@ album = track.get_album()
 album_title = album.title
 album_image = album.get_cover_image()
 print(album)
+print(album_image)
