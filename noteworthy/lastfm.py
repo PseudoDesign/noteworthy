@@ -6,7 +6,7 @@ import shutil
 DEFAULT_TILE = "No Track Info"
 DEFAULT_ARTIST = ""
 DEFAULT_ALBUM = ""
-DEFAULT_LONG_INFO = "No Track Info"
+DEFAULT_LONG_INFO = "No Track Info    "
 DEFAULT_IMAGE_NAME = "default.png"
 
 
@@ -62,7 +62,7 @@ def save_track_info(track, location):
         album = track.get_album()
         save_text(track.title, location, 'title.txt')
         save_text(track.artist.name, location, 'artist.txt')
-        save_text(track.title + " - " + track.artist.name, location, 'long_info.txt')
+        save_text(track.title + " - " + track.artist.name + "    ", location, 'long_info.txt')
         if album:
             save_text(album.title, location, 'album.txt')
             save_image(album.get_cover_image(), location, 'album_art.png')

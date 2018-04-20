@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch, MagicMock, call
-from now_playing import keys
-from now_playing import lastfm
+from noteworthy import keys
+from noteworthy import lastfm
 
 
 class TestLastFm(TestCase):
@@ -44,8 +44,8 @@ class TestLastFmSaveTrackInfo(TestCase):
         self.album.title = self.album_title
         self.album.get_cover_image.return_value = self.album_image_url
 
-    @patch('now_playing.lastfm.save_image')
-    @patch('now_playing.lastfm.save_text')
+    @patch('noteworthy.lastfm.save_image')
+    @patch('noteworthy.lastfm.save_text')
     def test_save_track_info(self, save_text, save_image):
 
         lastfm.save_track_info(self.track, self.location)
@@ -54,15 +54,15 @@ class TestLastFmSaveTrackInfo(TestCase):
             call(self.track_title, self.location, "title.txt"),
             call(self.artist, self.location, "artist.txt"),
             call(self.album_title, self.location, "album.txt"),
-            call(self.track_title + " - " + self.artist, self.location, "long_info.txt")
+            call(self.track_title + " - " + self.artist + "    ", self.location, "long_info.txt")
         ]
 
         save_text.assert_has_calls(save_text_calls, any_order=True)
         save_image.assert_called_with(self.album_image_url, self.location, "album_art.png")
 
-    @patch('now_playing.lastfm.set_default_image')
-    @patch('now_playing.lastfm.save_image')
-    @patch('now_playing.lastfm.save_text')
+    @patch('noteworthy.lastfm.set_default_image')
+    @patch('noteworthy.lastfm.save_image')
+    @patch('noteworthy.lastfm.save_text')
     def test_save_track_info_sets_default_if_called_with_None(self, save_text, save_image, set_default_image):
         self.track = None
 
@@ -79,9 +79,9 @@ class TestLastFmSaveTrackInfo(TestCase):
         save_image.assert_not_called()
         set_default_image.assert_called_with(self.location, 'album_art.png')
 
-    @patch('now_playing.lastfm.set_default_image')
-    @patch('now_playing.lastfm.save_image')
-    @patch('now_playing.lastfm.save_text')
+    @patch('noteworthy.lastfm.set_default_image')
+    @patch('noteworthy.lastfm.save_image')
+    @patch('noteworthy.lastfm.save_text')
     def test_save_track_info_sets_track_info_when_album_is_not_present(self, save_text, save_image, set_default_image):
         self.track.get_album.return_value = None
 
@@ -91,7 +91,7 @@ class TestLastFmSaveTrackInfo(TestCase):
             call(self.track_title, self.location, "title.txt"),
             call(self.artist, self.location, "artist.txt"),
             call(lastfm.DEFAULT_ALBUM, self.location, "album.txt"),
-            call(self.track_title + " - " + self.artist, self.location, "long_info.txt")
+            call(self.track_title + " - " + self.artist + "    ", self.location, "long_info.txt")
         ]
 
         save_text.assert_has_calls(save_text_calls, any_order=True)
