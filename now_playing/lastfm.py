@@ -8,8 +8,10 @@ DEFAULT_ALBUM = ""
 DEFAULT_IMAGE_NAME = "default.png"
 
 
-def set_default_image(directory):
-    pass
+def set_default_image(directory, filename):
+    default_file = os.path.join(directory, DEFAULT_IMAGE_NAME)
+    new_file = os.path.join(directory, filename)
+    os.replace(default_file, new_file)
 
 
 def save_text(text, directory, filename):
@@ -19,8 +21,12 @@ def save_text(text, directory, filename):
 
 
 def save_image(url, directory, filename):
-    file = os.path.join(directory, filename)
-    wget.download(url, out=file)
+    try:
+        file = os.path.join(directory, filename)
+        new_file = wget.download(url, out=file)
+        os.replace(new_file, file)
+    except:
+        set_default_image(directory, filename)
 
 
 def connect(api_key, secret_key):
@@ -54,8 +60,12 @@ def save_track_info(track, location):
         album = track.get_album()
         save_text(track.title, location, 'title.txt')
         save_text(track.artist.name, location, 'artist.txt')
-        save_text(album.title, location, 'album.txt')
-        save_image(album.get_cover_image(), location, 'album_art.png')
+        if album:
+            save_text(album.title, location, 'album.txt')
+            save_image(album.get_cover_image(), location, 'album_art.png')
+        else:
+            save_text(DEFAULT_ALBUM, location, 'album.txt')
+            set_default_image(location)
     else:
         save_text(DEFAULT_TILE, location, 'title.txt')
         save_text(DEFAULT_ARTIST, location, 'artist.txt')

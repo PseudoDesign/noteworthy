@@ -77,6 +77,23 @@ class TestLastFmSaveTrackInfo(TestCase):
         save_image.assert_not_called()
         set_default_image.assert_called_with(self.location)
 
+    @patch('now_playing.lastfm.set_default_image')
+    @patch('now_playing.lastfm.save_image')
+    @patch('now_playing.lastfm.save_text')
+    def test_save_track_info_sets_track_info_when_album_is_not_present(self, save_text, save_image, set_default_image):
+        self.track.get_album.return_value = None
+
+        lastfm.save_track_info(self.track, self.location)
+
+        save_text_calls = [
+            call(self.track_title, self.location, "title.txt"),
+            call(self.artist, self.location, "artist.txt"),
+            call(lastfm.DEFAULT_ALBUM, self.location, "album.txt")
+        ]
+
+        save_text.assert_has_calls(save_text_calls)
+        save_image.assert_not_called()
+        set_default_image.assert_called_with(self.location)
 
 
 class TestKeys(TestCase):
