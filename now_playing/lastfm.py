@@ -2,6 +2,15 @@ import pylast
 import os
 import wget
 
+DEFAULT_TILE = "No Track Info"
+DEFAULT_ARTIST = ""
+DEFAULT_ALBUM = ""
+DEFAULT_IMAGE_NAME = "default.png"
+
+
+def set_default_image(directory):
+    pass
+
 
 def save_text(text, directory, filename):
     file = os.path.join(directory, filename)
@@ -41,8 +50,14 @@ def save_track_info(track, location):
     :param location: File path to save to
     :return:
     """
-    album = track.get_album()
-    save_text(track.title, location, 'title.txt')
-    save_text(track.artist.name, location, 'artist.txt')
-    save_text(album.title, location, 'album.txt')
-    save_image(album.get_cover_image(), location, 'album_art.png')
+    if track:
+        album = track.get_album()
+        save_text(track.title, location, 'title.txt')
+        save_text(track.artist.name, location, 'artist.txt')
+        save_text(album.title, location, 'album.txt')
+        save_image(album.get_cover_image(), location, 'album_art.png')
+    else:
+        save_text(DEFAULT_TILE, location, 'title.txt')
+        save_text(DEFAULT_ARTIST, location, 'artist.txt')
+        save_text(DEFAULT_ALBUM, location, 'album.txt')
+        set_default_image(location)
