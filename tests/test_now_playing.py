@@ -26,33 +26,38 @@ class TestLastFm(TestCase):
         user.get_now_playing.assert_called_once()
         self.assertEqual(return_value, track)
 
+
+class TestLastFmSaveTrackInfo(TestCase):
+
+    def setUp(self):
+        self.location = "test_location"
+        self.track = MagicMock()
+        self.track_title = "track"
+        self.artist = "artist"
+        self.album = MagicMock()
+        self.album_title = "album"
+        self.album_image_url = "pseudo.design/img.png"
+
+        self.track.artist = self.artist
+        self.track.title = self.track_title
+        self.track.get_album.return_value = self.album
+        self.album.title = self.album_title
+        self.album.get_cover_image.return_value = self.album_image_url
+
     @patch('now_playing.lastfm.save_image')
     @patch('now_playing.lastfm.save_text')
     def test_save_track_info(self, save_text, save_image):
-        location = "test_location"
-        track = MagicMock()
-        track_title = "track"
-        artist = "artist"
-        album = MagicMock()
-        album_title = "album"
-        album_image_url = "pseudo.design/img.png"
 
-        track.artist = artist
-        track.title = track_title
-        track.get_album.return_value = album
-        album.title = album_title
-        album.get_cover_image.return_value = album_image_url
-
-        lastfm.save_track_info(track, location)
+        lastfm.save_track_info(self.track, self.location)
 
         save_text_calls = [
-            call(track_title, location, "title.txt"),
-            call(artist, location, "artist.txt"),
-            call(album_title, location, "album.txt")
+            call(self.track_title, self.location, "title.txt"),
+            call(self.artist, self.location, "artist.txt"),
+            call(self.album_title, self.location, "album.txt")
         ]
 
         save_text.assert_has_calls(save_text_calls)
-        save_image.assert_called_with(album_image_url, location, "album_art.png")
+        save_image.assert_called_with(self.album_image_url, self.location, "album_art.png")
 
 
 class TestKeys(TestCase):
