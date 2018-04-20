@@ -53,10 +53,11 @@ class TestLastFmSaveTrackInfo(TestCase):
         save_text_calls = [
             call(self.track_title, self.location, "title.txt"),
             call(self.artist, self.location, "artist.txt"),
-            call(self.album_title, self.location, "album.txt")
+            call(self.album_title, self.location, "album.txt"),
+            call(self.track_title + " - " + self.artist, self.location, "long_info.txt")
         ]
 
-        save_text.assert_has_calls(save_text_calls)
+        save_text.assert_has_calls(save_text_calls, any_order=True)
         save_image.assert_called_with(self.album_image_url, self.location, "album_art.png")
 
     @patch('now_playing.lastfm.set_default_image')
@@ -70,12 +71,13 @@ class TestLastFmSaveTrackInfo(TestCase):
         save_text_calls = [
             call(lastfm.DEFAULT_TILE, self.location, "title.txt"),
             call(lastfm.DEFAULT_ARTIST, self.location, "artist.txt"),
-            call(lastfm.DEFAULT_ALBUM, self.location, "album.txt")
+            call(lastfm.DEFAULT_ALBUM, self.location, "album.txt"),
+            call(lastfm.DEFAULT_LONG_INFO, self.location, "long_info.txt")
         ]
 
-        save_text.assert_has_calls(save_text_calls)
+        save_text.assert_has_calls(save_text_calls, any_order=True)
         save_image.assert_not_called()
-        set_default_image.assert_called_with(self.location)
+        set_default_image.assert_called_with(self.location, 'album_art.png')
 
     @patch('now_playing.lastfm.set_default_image')
     @patch('now_playing.lastfm.save_image')
@@ -88,12 +90,13 @@ class TestLastFmSaveTrackInfo(TestCase):
         save_text_calls = [
             call(self.track_title, self.location, "title.txt"),
             call(self.artist, self.location, "artist.txt"),
-            call(lastfm.DEFAULT_ALBUM, self.location, "album.txt")
+            call(lastfm.DEFAULT_ALBUM, self.location, "album.txt"),
+            call(self.track_title + " - " + self.artist, self.location, "long_info.txt")
         ]
 
-        save_text.assert_has_calls(save_text_calls)
+        save_text.assert_has_calls(save_text_calls, any_order=True)
         save_image.assert_not_called()
-        set_default_image.assert_called_with(self.location)
+        set_default_image.assert_called_with(self.location, 'album_art.png')
 
 
 class TestKeys(TestCase):
