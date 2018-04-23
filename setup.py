@@ -7,7 +7,7 @@ setup(
     name="noteworthy",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="0.0.1.dev0",
+    version="0.0.1dev0",
     author="Pseudo Design <info@pseudo.design>",
     install_requires=['pylast', 'wget'],
     tests_require=[],
